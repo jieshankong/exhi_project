@@ -7,6 +7,7 @@ import scrapy
 
 class ExhibitionsItem(scrapy.Item):
     url = scrapy.Field()
+    img = scrapy.Field()
     title = scrapy.Field()
     subtitle = scrapy.Field()
     date_start = scrapy.Field()
@@ -16,5 +17,3 @@ class ExhibitionsItem(scrapy.Item):
     venue = scrapy.Field()
     organizer_id = scrapy.Field()
     description = scrapy.Field()
-    # timestamp = scrapy.Field()
-    

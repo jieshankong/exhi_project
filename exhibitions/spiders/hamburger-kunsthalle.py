@@ -33,6 +33,7 @@ class HamburgerkunsthalleSpider(scrapy.Spider):
         exh_item = ExhibitionsItem()
 
         exh_item['url'] = response.url,
+        exh_item['img'] = response.css('div#page img::attr(src)').get(),
         exh_item['title'] = exh.css('h1::text').get(),
         exh_item['subtitle'] = exh.css('div.title-suffix::text').get(),
         exh_item['date_start'] = response.css('time[itemprop="startDate"]::attr(datetime)').get(),

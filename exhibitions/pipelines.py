@@ -90,51 +90,60 @@ class PostgresExportPipeline:
         CREATE TABLE IF NOT EXISTS exhibition(
             id serial PRIMARY KEY, 
             url text,
+            img text,
             title text,
             subtitle text,
             date_str text,
             venue text,
             organizer_id int,
-            description text
-                         
+            description text,
+            UNIQUE(title, organizer_id)
         )
         """)
-
+        self.connection.commit()
 
     def process_item(self, item, spider):
-        ## Define insert statement
-        self.cur.execute(""" INSERT INTO exhibition (
-            url, 
-            title, 
-            subtitle, 
-            date_str,
-            venue,
-            organizer_id,
-            description
-            ) VALUES (
-                %s,
-                %s,
-                %s,
-                %s,
-                %s,
-                %s,
-                %s
-                )
-                ON CONFLICT (title, organizer_id)
-                DO UPDATE SET 
-                    date_str = EXCLUDED.date_str
-                """, (
-            item["url"],
-            item["title"],
-            item['subtitle'],
-            item['date_str'],
-            item['venue'],
-            item['organizer_id'],
-            str(item["description"])
-        ))
+        try:
+            ## Define insert statement
+            self.cur.execute(""" INSERT INTO exhibition (
+                url,
+                img, 
+                title, 
+                subtitle, 
+                date_str,
+                venue,
+                organizer_id,
+                description
+                ) VALUES (
+                    %s,
+                    %s,
+                    %s,
+                    %s,
+                    %s,
+                    %s,
+                    %s,
+                    %s
+                    )
+                    ON CONFLICT (title, organizer_id)
+                    DO UPDATE SET 
+                        date_str = EXCLUDED.date_str
+                    """, (
+                item["url"],
+                item["img"],
+                item["title"],
+                item['subtitle'],
+                item['date_str'],
+                item['venue'],
+                item['organizer_id'],
+                str(item["description"])
+            ))
 
-        ## Execute insert of data into database
-        self.connection.commit()
+            ## Execute insert of data into database
+            self.connection.commit()
+        except Exception as e:
+            print(f"Error: {e}")
+            self.connection.rollback()  # Rollback in case of error
+            raise  # Optional: re-raise the exception if you want it to be propagated
         return item
 
     def close_spider(self, spider):
