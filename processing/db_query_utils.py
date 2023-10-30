@@ -20,6 +20,7 @@ SELECT e.title
 	,o.country
 	,e.description
     ,e.url
+    ,e.img
 FROM exhibition AS e
 INNER JOIN date_clean AS d
 ON e.id = d.id

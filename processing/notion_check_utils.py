@@ -1,4 +1,3 @@
-import pandas as pd
 import requests, json
 from decouple import config
 

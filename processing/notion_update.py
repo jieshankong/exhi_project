@@ -1,19 +1,27 @@
 from decouple import config
 import requests
-from db_query import df
+from db_query_utils import df
 from notion_check_utils import readDatabase, extract_titles
 
 token = config('NOTION_token')
-databaseID = config('NOTION_databaseID')
+databaseID = config('NOTION_databaseID') 
 headers = {
     "Authorization": "Bearer " + token,
     "Content-Type": "application/json",
     "Notion-Version": "2022-02-22"
 }
 
-def create_page(data: dict, children: list, databaseID: str, headers: dict):
+def create_page(data: dict, children: list, cover_url: str, databaseID: str, headers: dict):
     create_url = "https://api.notion.com/v1/pages"
-    payload = {"parent": {"database_id": databaseID}, "properties": data, "children": children}
+    payload = {
+        "parent": {"database_id": databaseID},
+        "properties": data,
+        "children": children,
+        "cover": {
+            "type": "external",
+            "external": {"url": cover_url}
+        }
+    }
     res = requests.post(create_url, headers=headers, json=payload)
     return res
 
@@ -63,6 +71,8 @@ for index, row in df.iterrows():
             }
         ]
 
+        cover_url = row.get('img', '') 
+
         # Handle long description text
         description_content = row.get('description', "")
         description_chunks = split_text(description_content)
@@ -77,7 +87,7 @@ for index, row in df.iterrows():
             children.append(paragraph_block)
 
         try:
-            response = create_page(properties, children, databaseID, headers)
+            response = create_page(properties, children, cover_url, databaseID, headers)
             if response.status_code == 200:
                 print(f"Page for {title} created successfully.")
             else:
