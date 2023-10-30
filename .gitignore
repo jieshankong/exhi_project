@@ -1,0 +1,11 @@
+__pycache__
+__init__.py
+
+.env
+
+*.json
+postgres_test.py
+
+doc
+temp
+venv
