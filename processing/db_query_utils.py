@@ -31,5 +31,5 @@ WHERE d.date_start IS NOT NULL
 
 connection.close()
 
-df = df.head(3)
+#df = df.head(3)
 #print(df)

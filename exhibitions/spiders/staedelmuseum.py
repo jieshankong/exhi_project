@@ -26,6 +26,7 @@ class StaedelmuseumSpider(scrapy.Spider):
     def pars_exh_page(self, response):
         exh_item = ExhibitionsItem()
         exh_item['url'] = response.url,
+        exh_item['img'] = response.css('div.stGrid__main img::attr(src)').get(),
         
         title_parts = response.css('h1::text').getall()
         exh_item['title'] = ' '.join(part.strip() for part in title_parts),
