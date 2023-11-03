@@ -64,7 +64,7 @@ ROBOTSTXT_OBEY = True
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 ITEM_PIPELINES = {
-    #'exhibitions.pipelines.TimestampPipeline': 100,
+    #'exhibitions.pipelines.WhitespaceCleaningPipeline': 100,
     'exhibitions.pipelines.ISOstringCleaningPipeline': 200,
     #'exhibitions.pipelines.DateNrstringCleanPipeling': 300,
     # ... other cleaning pipelines ...

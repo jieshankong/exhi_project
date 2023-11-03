@@ -9,11 +9,23 @@ import psycopg2
 from datetime import datetime
 from decouple import config
 
-# import datetime
-# class TimestampPipeline:
-#     def process_item(self, item, spider):
-#         item['timestamp'] = datetime.datetime.now().isoformat()
-#         return item
+class WhitespaceCleaningPipeline:
+    def process_item(self, item, spider):
+
+        adapter = ItemAdapter(item)
+
+        applicable_spiders = ["mdbk"]
+
+        field_names = adapter.field_names()
+        if spider.name in applicable_spiders:
+            for field_name in field_names:
+                if field_name == 'date_str':
+                    value = adapter.get(field_name)
+								## see error
+								## print("****")
+								## print(value)
+                    adapter[field_name] = value[0].strip()
+        return item
     
 # Combine date_start and date_end (the ISO 8601 string ("2023-10-13T00:00:00+02:00")) to date_str
 class ISOstringCleaningPipeline:

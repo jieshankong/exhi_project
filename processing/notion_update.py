@@ -1,3 +1,5 @@
+# Notion Gallery: https://www.notion.so/jsequaljs/fa70fdae978049db80b145b32485a489?v=ee1206773f6e4e64ab073a0c063a7da7
+
 from decouple import config
 import requests
 from db_query_utils import df

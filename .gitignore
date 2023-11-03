@@ -4,6 +4,7 @@ __init__.py
 .env
 
 *.json
+*.csv
 postgres_test.py
 
 doc
