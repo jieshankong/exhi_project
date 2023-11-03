@@ -44,9 +44,9 @@ for index, row in df.iterrows():
             "gEVf": {"rich_text": [{"text": {"content": row['subtitle'] if row['subtitle'] is not None else ""}}]},
             "%5Evz%60": {"date": {"start": str(row['date_start']), "end": str(row['date_end'])}},
             "Ydop": {"url": row['url']},
-            "%3Eye%7D": {"rich_text": [{"text": {"content": row['country']}}]},
+            "%3Eye%7D": {"select": {"name": row['country']}},
             "%5B%3D%60%3A": {"rich_text": [{"text": {"content": row['name']}}]},
-            "j%60Lr": {"rich_text": [{"text": {"content": row['city']}}]}
+            "j%60Lr": {"select": {"name": row['city']}},
         }
 
         children = [
